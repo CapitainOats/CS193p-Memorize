@@ -8,13 +8,20 @@
 
 import SwiftUI
 
+extension Collection {
+    func choose(_ n: Int) -> ArraySlice<Element> {
+        shuffled().prefix(n)
+    }
+}
+
 class EmojiMemoryGame {
     private var model: MemoryGame<String> = createMemoryGame()
     
     static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["👻", "🎃", "🕷"]
-        return MemoryGame<String>(numberOfPairsOfCards: emojis.count) { pairIndex in
-            return emojis[pairIndex]
+        let emojis: Array<String> = ["👻", "🎃", "🕷", "🕸", "🦇", "😱", "🙀", "☠️", "💀", "🍭"]
+        let gameEmojis = emojis.choose(Int.random(in: 2...5))
+        return MemoryGame<String>(numberOfPairsOfCards: gameEmojis.count) { pairIndex in
+            return gameEmojis[pairIndex]
         }
     }
     
