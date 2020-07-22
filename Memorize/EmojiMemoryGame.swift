@@ -14,8 +14,8 @@ extension Collection {
     }
 }
 
-class EmojiMemoryGame {
-    private var model: MemoryGame<String> = createMemoryGame()
+class EmojiMemoryGame: ObservableObject {
+    @Published private var model: MemoryGame<String> = createMemoryGame()
     
     static func createMemoryGame() -> MemoryGame<String> {
         let emojis: Array<String> = ["👻", "🎃", "🕷", "🕸", "🦇", "😱", "🙀", "☠️", "💀", "🍭"]
