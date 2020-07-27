@@ -8,21 +8,11 @@
 
 import SwiftUI
 
-extension Collection {
-    func choose(_ n: Int) -> ArraySlice<Element> {
-        shuffled().prefix(n)
-    }
-}
-
 class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String> = createMemoryGame()
     
     static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["👻", "🎃", "🕷", "🕸", "🦇", "😱", "🙀", "☠️", "💀", "🍭"]
-        let gameEmojis = emojis.choose(Int.random(in: 2...5))
-        return MemoryGame<String>(numberOfPairsOfCards: gameEmojis.count) { pairIndex in
-            return gameEmojis[pairIndex]
-        }
+        MemoryGame<String>()
     }
     
     // MARK: - Access to the Model
@@ -31,9 +21,21 @@ class EmojiMemoryGame: ObservableObject {
         model.cards
     }
     
+    var currentTheme: MemoryGame<String>.Theme? {
+        model.currentTheme
+    }
+    
+    var score: Int {
+        model.score
+    }
+    
     // MARK: - Intent(s)
     
     func choose(card: MemoryGame<String>.Card) {
         model.choose(card: card)
+    }
+    
+    func startNewGame() {
+        model.startNewGame()
     }
 }

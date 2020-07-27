@@ -12,16 +12,32 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
-        Grid(viewModel.cards) { card in
-                CardView(card: card).onTapGesture {
-                    self.viewModel.choose(card: card)
+        VStack(alignment: .leading) {
+            viewModel.currentTheme.map { currentTheme in
+                VStack {
+                    Text(currentTheme.name)
+                        .foregroundColor(.black)
+                        .font(Font.largeTitle)
+                    Grid(viewModel.cards) { card in
+                        CardView(card: card).onTapGesture {
+                            self.viewModel.choose(card: card)
+                        }.padding(self.cardPadding)
+                    }
                 }
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(5)
+                .foregroundColor(currentTheme.color)
+            }
+            HStack {
+                Text("Score: \(self.viewModel.score)")
+                Button("New game") {
+                    self.viewModel.startNewGame()
+                }
+            }
         }
-            .padding()
-            .foregroundColor(Color.orange)
+        .padding()
     }
+    
+    // MARK: - Drawing Constants
+    let cardPadding: CGFloat = 2
 }
 
 struct CardView: View {
